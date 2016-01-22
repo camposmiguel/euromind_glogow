@@ -10,14 +10,17 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.SphericalUtil;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerDragListener {
 
     private GoogleMap mMap;
     int counter = 1;
@@ -43,6 +46,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // Event when user click on map
         mMap.setOnMapClickListener(this);
+        mMap.setOnMarkerDragListener(this);
 
         // Type Map
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -53,8 +57,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         settings.setCompassEnabled(true);
 
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(37.403957,-5.984155);
+        // Add a marker in Jerez de la Frontera and move the camera
+        LatLng sydney = new LatLng(36.712805,-6.03364);
 
 
         mMap.addMarker(new MarkerOptions()
@@ -65,14 +69,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         );
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        Polygon polygon = mMap.addPolygon(new PolygonOptions()
+                .add(new LatLng(36.712805, -6.03364), new LatLng(36.708074,-6.027246), new LatLng(36.704238,-6.033361), new LatLng(36.712805,-6.03364))
+                .strokeColor(Color.RED)
+                .fillColor(Color.BLUE));
     }
 
     @Override
     public void onMapClick(LatLng newPosition) {
         Marker myMarker = mMap.addMarker(new MarkerOptions()
                         .position(newPosition)
-                        .title("Marker "+counter)
-                        .snippet(newPosition.latitude+","+newPosition.longitude)
+                        .title("Marker " + counter)
+                        .snippet(newPosition.latitude + "," + newPosition.longitude)
+                        .draggable(true)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_flag))
+                        .rotation(90)
         );
 
         // If lastPostion is not equal null, whe can calculate
@@ -97,6 +109,25 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         myMarker.showInfoWindow();
         counter++;
+
+
+
     }
 
+    @Override
+    public void onMarkerDragStart(Marker marker) {
+        marker.hideInfoWindow();
+    }
+
+    @Override
+    public void onMarkerDrag(Marker marker) {
+
+    }
+
+    @Override
+    public void onMarkerDragEnd(Marker marker) {
+        LatLng position = marker.getPosition();
+        marker.showInfoWindow();
+        marker.setSnippet(position.latitude+","+position.longitude);
+    }
 }
