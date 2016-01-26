@@ -1,7 +1,6 @@
 package net.openwebinars.liststring;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,12 +48,6 @@ public class StudentAdapter extends ArrayAdapter<Student> {
         TextView textViewAge = (TextView) v.findViewById(R.id.textViewAge);
         RelativeLayout relativeLayout = (RelativeLayout)v.findViewById(R.id.layoutItemStudent);
 
-        // Change de elements of the layout
-        if(position%2==0) {
-            relativeLayout.setBackgroundColor(Color.BLACK);
-            textViewName.setTextColor(Color.WHITE);
-            textViewAge.setTextColor(Color.WHITE);
-        }
 
         textViewName.setText(name);
         textViewAge.setText(String.valueOf(age));
