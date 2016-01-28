@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <!-- A CardView that contains a TextView -->
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        card_view:cardElevation="0dp"
+        card_view:backgroundTint="@android:color/holo_blue_light"
+        card_view:cardCornerRadius="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.miguelcr.navigationdrawer.StationIconView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:id="@+id/station_icon"
+                android:scaleType="fitXY"
+                android:layout_marginRight="5dp"/>
+
+            <TextView
+                android:id="@+id/station_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/station_icon"/>
+
+            <ImageView
+                android:id="@+id/parking_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/station_name"
+                android:layout_toRightOf="@+id/station_icon"
+                android:src="@drawable/parking"/>
+
+            <ImageView
+                android:id="@+id/bus_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/parking_icon"
+                android:layout_below="@+id/station_name"
+                android:src="@drawable/bus"/>
+
+            <ImageView
+                android:id="@+id/tram_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/bus_icon"
+                android:layout_below="@+id/station_name"
+                android:src="@drawable/tram"/>
+
+            <ImageView
+                android:id="@+id/train_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tram_icon"
+                android:layout_below="@+id/station_name"
+                android:src="@drawable/train_connection"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>

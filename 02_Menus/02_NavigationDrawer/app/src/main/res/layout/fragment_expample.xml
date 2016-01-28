@@ -1,0 +1,53 @@
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.miguelcr.navigationdrawer.StationIconView
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:id="@+id/station_icon"
+        android:scaleType="fitXY"
+        android:layout_marginRight="5dp"/>
+
+    <TextView
+        android:id="@+id/station_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="djhfdkjghdlkfjsghlkdjfshg"
+        android:layout_toRightOf="@+id/station_icon"/>
+
+    <ImageView
+        android:id="@+id/parking_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/station_name"
+        android:layout_toRightOf="@+id/station_icon"
+        android:src="@drawable/parking"/>
+
+    <ImageView
+        android:id="@+id/bus_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/parking_icon"
+        android:layout_below="@+id/station_name"
+        android:src="@drawable/bus"/>
+
+    <ImageView
+        android:id="@+id/tram_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/bus_icon"
+        android:layout_below="@+id/station_name"
+        android:src="@drawable/tram"/>
+
+    <ImageView
+        android:id="@+id/train_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tram_icon"
+        android:layout_below="@+id/station_name"
+        android:src="@drawable/train_connection"/>
+
+</RelativeLayout>
