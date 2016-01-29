@@ -2,12 +2,14 @@ package com.miguelcr.navigationdrawer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -27,7 +29,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     JSONArray response = new JSONArray();
     EditText userEmail, userPass;
     Button btnLogin;
-    boolean loginOk = false;
+    boolean loginOk = false, remember = false;
+    CheckBox rememberMe;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +41,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         userEmail = (EditText)findViewById(R.id.editTextEmail);
         userPass = (EditText)findViewById(R.id.editTextPassword);
         btnLogin = (Button) findViewById(R.id.buttonLogin);
+        rememberMe = (CheckBox)findViewById(R.id.checkBoxRemember);
 
         btnLogin.setOnClickListener(this);
+
+
+        SharedPreferences settings = getSharedPreferences("USER_PREF", 0);
+        boolean isLogin = settings.getBoolean("isLogin",false);
+        if(isLogin) {
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+        }
 
     }
 
@@ -46,6 +59,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         String currentEmail = userEmail.getText().toString();
         String currentPass = userPass.getText().toString();
+
 
         if(!currentEmail.isEmpty() && !currentPass.isEmpty()) {
             new LoginTask(this).execute(currentEmail,currentPass);
@@ -77,6 +91,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         protected void onPostExecute(String result) {
             if(loginOk) {
+
+                // Save remember me in preferences
+                SharedPreferences settings = getSharedPreferences("USER_PREF", 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("isLogin", rememberMe.isChecked());
+                editor.commit();
+
+
+
                 Intent i = new Intent(ctx,MainActivity.class);
                 startActivity(i);
             } else {

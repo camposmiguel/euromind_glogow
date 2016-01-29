@@ -94,6 +94,11 @@ public class MainActivity extends AppCompatActivity
             f = new MapStationsFragment();
         } else if (id == R.id.nav_slideshow) {
             f = new ExpampleFragment();
+
+            // Save Preferences isLogin = false
+            // then: finish();
+
+
         } else if (id == R.id.nav_manage) {
             f = new ExpampleFragment();
         } else if (id == R.id.nav_share) {
