@@ -1,5 +1,7 @@
 package com.miguelcr.navigationdrawer;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +27,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     JSONArray response = new JSONArray();
     EditText userEmail, userPass;
     Button btnLogin;
+    boolean loginOk = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +48,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String currentPass = userPass.getText().toString();
 
         if(!currentEmail.isEmpty() && !currentPass.isEmpty()) {
-            new LoginTask().execute(currentEmail,currentPass);
+            new LoginTask(this).execute(currentEmail,currentPass);
+        } else {
+            Toast.makeText(this,"Email or password empty",Toast.LENGTH_LONG).show();
         }
     }
 
     private class LoginTask extends AsyncTask<String, Void, String> {
+        Context ctx;
+
+        public LoginTask(Context context) {
+            this.ctx = context;
+        }
+
         protected String doInBackground(String... credentials) {
 
             email = credentials[0];
             password = credentials[1];
+
+            sendRegistrationIdToBackend();
 
             return "";
         }
@@ -62,7 +76,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         protected void onPostExecute(String result) {
-
+            if(loginOk) {
+                Intent i = new Intent(ctx,MainActivity.class);
+                startActivity(i);
+            } else {
+                Toast.makeText(ctx,"Login wrong",Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -84,6 +103,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             int responseCode = urlConnection.getResponseCode();
 
             if(responseCode == HttpURLConnection.HTTP_OK){
+                loginOk = true;
                 String responseString = readStream(urlConnection.getInputStream());
                 Log.v("CatalogClient", responseString);
                 try {
